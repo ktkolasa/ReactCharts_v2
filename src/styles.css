@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+}
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #06a;
+}
+h1 {
+  font-size: 17pt;
+}
+.SwitchButton {
+  border: 4px solid;
+  border-radius: 4px;
+  color: rgba(32, 50, 80, 0.867);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width: 50%;
+}
+.active {
+  border-color: blue;
+  background-color: #222;
+  color: #eee;
+}
+.inactive {
+  border-color: #111;
+  background-color: #111;
+  color: #666;
+}
+.targeted {
+  background-color: #333;
+  color: #fff;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+  height: 500px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.body {
+  background-color: #dcb;
+}
+.nav {
+  background-color: #111;
+  /*background-color: #aaa; */
+  width: 30%;
+}
+.switchers {
+  color: #ccc;
+  /*background-color: #aa1; */
+}
+.content {
+  background-color: #ccc;
+}
+.main {
+  background-color: #ccc;
+  width: 70%;
+}
+.charts {
+  background-color: #bcc;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
