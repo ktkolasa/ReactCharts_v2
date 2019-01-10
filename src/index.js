@@ -4,29 +4,29 @@ import ReactDOM from "react-dom";
 import "./styles.css";
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      nav_mode: "data"
+    };
+  }
   myCallback = dataFromChild => {
-    console.log(dataFromChild);
+    console.log("callback");
+    let new_nav_mode = dataFromChild;
+    this.setState({ nav_mode: new_nav_mode });
+    console.log(this.state.nav_mode);
   };
+
   render() {
     return (
       <div className="App" class="App">
         <h1>Draw your chart</h1>
-        <p>Resize the browser the screen is less than 600px wide).</p>
-
         <div class="row">
           <div class="column nav">
             <div class="switchers">
-              <p>Switchers</p>
               <Switcher callbackFromParent={this.myCallback} />
             </div>
-
-            <div class="content">
-              <h2>Column 1</h2>
-              <div class="row charts">
-                <p>Pictures</p>
-              </div>
-              <Button name="Export as CSV" />
-            </div>
+            <Panel mode={this.state.nav_mode} />
           </div>
 
           <div class="column main">
@@ -43,6 +43,48 @@ class App extends React.Component {
   }
 }
 
+class Panel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    if (this.props.mode == "data") {
+      return <DataPanel />;
+    }
+    if (this.props.mode == "settings") {
+      return <SettingsPanel />;
+    }
+  }
+}
+
+class SettingsPanel extends React.Component {
+  render() {
+    return (
+      <div class="content">
+        <h2>Settings</h2>
+        <div class="row charts">
+          <p>Pictures</p>
+        </div>
+        <Button name="Export as CSV" />
+      </div>
+    );
+  }
+}
+
+class DataPanel extends React.Component {
+  render() {
+    return (
+      <div class="content">
+        <h2>Data</h2>
+        <Button name="Import from CSV" />
+        <p>123</p>
+
+        <Button name="Export as CSV" />
+      </div>
+    );
+  }
+}
+
 class Switcher extends React.Component {
   constructor(props) {
     super(props);
@@ -52,23 +94,21 @@ class Switcher extends React.Component {
       datatarget: "not_targeted",
       settingstarget: "not_targeted"
     };
-    this.someFn = this.someFn.bind(this);
     this.activateData = this.activateData.bind(this);
     this.activateSettings = this.activateSettings.bind(this);
     this.onMouseEnterHandler = this.onMouseEnterHandler.bind(this);
     this.onMouseLeaveHandler = this.onMouseLeaveHandler.bind(this);
   }
-  someFn = () => {
-    this.props.callbackFromParent("milo");
-  };
+
   activateData() {
     this.setState({ data: "active" });
     this.setState({ settings: "inactive" });
-    this.props.callbackFromParent("milo");
+    this.props.callbackFromParent("data");
   }
   activateSettings() {
     this.setState({ data: "inactive" });
     this.setState({ settings: "active" });
+    this.props.callbackFromParent("settings");
   }
   defineClass(mode, targeted) {
     let res = "SwitchButton" + " " + mode + " " + targeted;
@@ -118,9 +158,6 @@ class Switcher extends React.Component {
 }
 
 class Button extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div>
